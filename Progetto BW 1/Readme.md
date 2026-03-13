@@ -41,3 +41,35 @@ Sulla base dell'analisi integrata dei dati storici, emerge un quadro epidemiolog
 **NO allo sviluppo di un vaccino universale di massa.** I costi di Ricerca & Sviluppo non sarebbero giustificati vista l'attuale saturazione del mercato. 
 
 Si consiglia invece di valutare la fattibilità di un **vaccino combinato (Antinfluenzale + Anti-Covid)**. Questa strategia massimizzerebbe la penetrazione in un mercato ormai ristretto, offrendo una doppia copertura con una singola dose mirata alla campagna autunnale.
+## Project Architecture (Data Pipeline)
+Il flusso dei dati segue un'architettura classica di Business Intelligence, suddivisa in quattro fasi principali: Ingestion, ETL (Extract, Transform, Load), Data Modeling e Data Visualization.
+
+```mermaid
+graph LR
+    subgraph Data_Sources [1. Data Sources]
+        A[GitHub: Vaccini CSV] --> C
+        B[GitHub: Andamento CSV] --> C
+    end
+    subgraph ETL [2. ETL - Power Query]
+        C[Data Extraction] --> D[Data Cleansing]
+        D --> E[Merge via Relational Key]
+    end
+    subgraph Modeling [3. Data Modeling - Power Pivot]
+        E --> F[(Centralized Model)]
+        F --> G[Calculated KPIs]
+    end
+    subgraph Visualization [4. Presentation]
+        G --> H[Interactive Dashboard]
+        G --> I[Slicers & Pivot Charts]
+    end
+    
+    %% Styling
+    classDef source fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef process fill:#e1f5fe,stroke:#0288d1,stroke-width:2px;
+    classDef database fill:#e8f5e9,stroke:#388e3c,stroke-width:2px;
+    classDef output fill:#fff3e0,stroke:#f57c00,stroke-width:2px;
+    
+    class A,B source;
+    class C,D,E process;
+    class F,G database;
+    class H,I output;
