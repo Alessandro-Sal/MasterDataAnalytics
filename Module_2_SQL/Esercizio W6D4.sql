@@ -1,6 +1,6 @@
 -- 1.Esponi lʼanagrafica dei prodotti indicando per ciascun prodotto anche la sua sottocategoria (DimProduct, DimProductSubcategory).
 Select 
-		Concat(p.Productkey,' - ',p.EnglishProductName) AS Product,
+		p.*,
         concat(p.ProductSubcategoryKey,' - ',d.EnglishProductSubcategoryName) AS Subcategory
 	from 
 		DimProduct P
