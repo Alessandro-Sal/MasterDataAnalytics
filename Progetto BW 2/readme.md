@@ -53,7 +53,7 @@ Il sistema è articolato in **4 fasi** che compongono il ciclo di vita di una tr
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    FLUSSO VENDOCOSE SPA                         │
+│                    FLUSSO VENDICOSE SPA                         │
 │                                                                 │
 │  FASE 1              FASE 2              FASE 3    FASE 4       │
 │  Il cliente    →   L'inventario   →   Controllo →  Ordine al    │
