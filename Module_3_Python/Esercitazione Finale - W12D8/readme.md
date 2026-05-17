@@ -1,5 +1,11 @@
 # 🦠 Analisi Diffusione COVID-19
 
+![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python&logoColor=white)
+![pandas](https://img.shields.io/badge/pandas-2.x-150458?logo=pandas&logoColor=white)
+![matplotlib](https://img.shields.io/badge/matplotlib-3.x-11557c)
+![Status](https://img.shields.io/badge/status-completato-brightgreen)
+![Data](https://img.shields.io/badge/fonte-Our%20World%20in%20Data-red)
+
 Analisi esplorativa e reportistica sui dati della pandemia di COVID-19, realizzata come progetto di portfolio nell'ambito di un percorso di formazione in Data Analysis.
 
 ---
@@ -17,6 +23,40 @@ I dati utilizzati sono raccolti e curati da **Our World in Data (OWID)** e sono 
 | Colonne totali | 67 |
 | Granularità | Giornaliera per paese |
 | Aggiornamento | Periodico |
+
+---
+
+## 🔄 Pipeline del progetto
+
+```mermaid
+flowchart TD
+    A[📥 Download dataset OWID\nowid-covid-data.csv] --> B[🔍 EDA\nDimensioni · Metadati · Nulli · Duplicati]
+    B --> C{Analisi colonna continent}
+    C -->|continent NOT NULL| D[df_nazioni\n402.910 righe\nDati per singolo paese]
+    C -->|continent IS NULL| E[df_macro\n26.525 righe\nAggregati OWID]
+    D --> F[Pulizia new_cases\nfillna 0]
+    D --> G[Pulizia total_cases\nffill per nazione]
+    F & G --> H[Analisi per continente\nPoint 2]
+    F & G --> I[Italia 2022\nPoint 3]
+    F & G --> J[ICU · Italia Germania Francia\nPoint 4]
+    F & G --> K[Ospedalizzati · 4 nazioni 2021\nPoint 5]
+    E -.->|validazione cross-check| H
+```
+
+---
+
+## 🗃️ Struttura del dataset
+
+```mermaid
+flowchart LR
+    RAW["🗄️ df grezzo\n429.435 righe · 67 colonne"]
+
+    RAW -->|continent NOT NULL| NAZ["📌 df_nazioni\n402.910 righe\nDati per singolo paese\nes. Italy · Germany · France"]
+    RAW -->|continent IS NULL| MAC["🌍 df_macro\n26.525 righe\nAggregati pre-calcolati\nes. World · Europe · High income"]
+
+    NAZ --> NA["✅ Dataset di lavoro principale"]
+    MAC --> MA["🔎 Usato solo per validazione\nnon unire a df_nazioni\n⚠️ causerebbe double counting"]
+```
 
 ---
 
@@ -38,7 +78,7 @@ Identificazione delle colonne con alta percentuale di dati mancanti (>50%), tipi
 
 ### 2. EDA — Analisi Esplorativa
 
-#### Colonna `continent` e colonna `location`
+#### Colonne `continent` e `location`
 Il dataset mescola due livelli di granularità differenti:
 
 - **Dati puntuali** (righe con `continent` non nullo) → singoli paesi
@@ -77,9 +117,9 @@ Filtro sui dati italiani del 2022 con esclusione dei giorni senza rilevazione (`
 
 ### 5. Pazienti ICU — Italia, Germania, Francia (mag 2022 / apr 2023)
 Confronto tramite boxplot della distribuzione dei pazienti in terapia intensiva (`icu_patients`).  
-I valori nulli (~29-34% per Germania e Francia) vengono gestiti con `ffill()` per nazione.
+I valori nulli (~29–34% per Germania e Francia) vengono gestiti con `ffill()` per nazione.
 
-**In valori assoluti:** Germania e Francia ~950-1000 pazienti (mediana), Italia ~230.  
+**In valori assoluti:** Germania e Francia ~950–1000 pazienti (mediana), Italia ~230.  
 **Normalizzando per milione di abitanti:** la Francia supera la Germania (mediana ~14 vs ~12 per milione), mentre l'Italia rimane la nazione con il minor carico (~4 per milione).
 
 ### 6. Pazienti ospedalizzati — Italia, Germania, Francia, Spagna (2021)
