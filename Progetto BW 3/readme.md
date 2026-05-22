@@ -14,6 +14,10 @@
 │   ├── Azienda_NG.ipynb         # Scraping sito ufficiale Brand NG
 │   └── Azienda_Z.ipynb          # Scraping piattaforma multimarca Z
 │
+├── config/
+│   ├── .env                     # URL e Variabili d'ambiente
+│   ├── Library.py               # File di importazione librerie
+│
 ├── data/
 │   ├── raw/
 │   │   ├── Azienda_G.csv
