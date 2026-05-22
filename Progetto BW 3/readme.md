@@ -52,15 +52,7 @@
 ## 🔧 Stack Tecnico
 
 ```python
-# Scraping
-requests, BeautifulSoup4      # Azienda G, C, NG (siti statici)
-selenium, undetected-chromedriver  # Azienda Z (SPA con anti-bot)
-
-# Analisi
-pandas, numpy
-
-# Visualizzazione
-matplotlib
+vedere Library.py
 ```
 
 ---
